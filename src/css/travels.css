@@ -1,0 +1,171 @@
+section.hero {
+    height: 100vh;
+    background: url("/public/img/hero.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+section.hero h1 {
+    color: #fff;
+}
+
+.btn-hero {
+    width: 150px;
+    border-radius: 10px;
+    font-weight: 600;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.btn-hero-create {
+    background-color: #FFE981;
+}
+
+.btn-hero-create:hover {
+    background-color: #efdb79;
+}
+
+.btn-hero-browse {
+    background-color: #448EF6;
+}
+
+.btn-hero-browse:hover {
+    background-color: #3478D8;
+}
+
+.search-bar {
+    background-color: #448EF6;
+}
+
+.browse {
+    background-color: #F6F6F6;
+}
+
+.browse .form-label {
+    color: #fff;
+    font-weight: 600;
+}
+
+.browse .btn-show {
+    background-color: #FFE981;
+    border-color: #FFE981;
+    color: #000;
+    font-weight: 600;
+}
+
+.browse .btn-show:hover {
+    background-color: #efdb79;
+    border-color: #efdb79;
+}
+
+.browse .btn-reset {
+    background-color: #3e3e3e;
+    border-color: #3e3e3e;
+    color: #fff;
+    font-weight: 600;
+}
+
+.browse .btn-reset:hover {
+    background-color: #fff;
+    background-color: #585858;
+    border-color: #585858;
+}
+
+.header-line {
+    flex-grow: 1;
+    height: 1px;
+    background-color: black;
+}
+  
+.header-title {
+    font-weight: 700;
+    margin: 0 20px;
+}
+
+.card-header {
+    color: #fff;
+    font-weight: 600;
+    background-color: #448EF6;
+}
+
+.card-header a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.card-header a:hover {
+    color: #FFE981;
+}
+
+.card-img-top {
+    border-top-left-radius: 0%;
+    border-top-right-radius: 0%;
+}
+
+.travel-img {
+    position: relative;
+    height: 225px;
+    background-size: cover;
+}
+
+.travel-creator {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 65px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    font-weight: 600;
+    background: linear-gradient(to bottom,rgba(0,0,0,0),rgba(0,0,0,.5));
+}
+
+.travel-creator:hover {
+    color: #FFE981;
+}
+
+.user-avatar {
+    width: 35px;
+    height: 35px;
+    background: #ddd;
+    background-size: cover;
+    background-position: center;
+    border: 2px solid #fff;
+}
+
+.travel-dates-people {
+    color: #000;
+    font-weight: 600;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: #FFE981;
+}
+
+.travel-link {
+    color: #448EF6;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.btn-view {
+    color: #fff;
+    font-weight: 600;
+    background-color: #448EF6;
+}
+
+.btn-view:hover {
+    color: #fff;
+    background-color: #3478D8;
+}
+
+@media (max-width: 991.98px) {
+    section.browse .container {
+        max-width: 100%;
+        margin-left: 0px;
+        margin-right: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+}

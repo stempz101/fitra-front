@@ -1,0 +1,14 @@
+{
+    "travels": "Подорожі",
+    "reviews": "Відгуки",
+    "language": "UA",
+    "greeting": "Привіт!",
+    "elapsedTime": {
+      "yearsAgo": "{{count}} років тому",
+      "monthsAgo": "{{count}} місяців тому",
+      "daysAgo": "{{count}} днів тому",
+      "hoursAgo": "{{count}} годин тому",
+      "minutesAgo": "{{count}} хвилин тому",
+      "secondsAgo": "{{count}} секунд тому"
+    }
+  }

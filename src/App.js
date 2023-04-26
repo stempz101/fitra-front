@@ -1,24 +1,34 @@
-import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-datepicker/dist/react-datepicker.css';
+import i18n from "./i18n";
+import Navigation from "./components/navigation/Navigation";
+import React, {useEffect, useState} from "react";
+import LocaleContext from "./LocaleContext";
+import useUserAuthorization from './hooks/users/useUserAuthorization';
+import {Route, Routes} from 'react-router-dom';
+import Travels from './pages/Travels';
+import Reviews from './pages/Reviews';
 
 function App() {
+  const [locale, setLocale] = useState(i18n.language);
+
+  const { currentUser, isAuthorized, handleAuthorizeUser, handleLogOutUser } = useUserAuthorization();
+
+  useEffect(() => {handleAuthorizeUser();}, []);
+
+  i18n.on('languageChanged', (lng) => setLocale(i18n.language));
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <LocaleContext.Provider value={{ locale, setLocale }}>
+        <Navigation currentUser={currentUser} isAuthorized={isAuthorized} logOut={handleLogOutUser} />
+        <Routes>
+          <Route exact path='/' element={<Travels />} />
+          <Route path='/reviews' element={<Reviews />} />
+        </Routes>
+      </LocaleContext.Provider>
+    </>
   );
 }
 

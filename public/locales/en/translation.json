@@ -1,0 +1,14 @@
+{
+    "travels": "Travels",
+    "reviews": "Reviews",
+    "language": "EN",
+    "greeting": "Hello!",
+    "elapsedTime": {
+      "yearsAgo": "{{count}} years ago",
+      "monthsAgo": "{{count}} months ago",
+      "daysAgo": "{{count}} days ago",
+      "hoursAgo": "{{count}} hours ago",
+      "minutesAgo": "{{count}} minutes ago",
+      "secondsAgo": "{{count}} seconds ago"
+    }
+  }
