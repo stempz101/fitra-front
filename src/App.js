@@ -11,25 +11,36 @@ import Travels from './pages/Travels';
 import Reviews from './pages/Reviews';
 
 function App() {
-  const [locale, setLocale] = useState(i18n.language);
+    const [locale, setLocale] = useState(i18n.language);
 
-  const { currentUser, isAuthorized, handleAuthorizeUser, handleLogOutUser } = useUserAuthorization();
+    const [showLogIn, setShowLogIn] = useState(false);
 
-  useEffect(() => {handleAuthorizeUser();}, []);
+    const {currentUser, isAuthorized, handleAuthorizeUser, handleLogOutUser} = useUserAuthorization();
 
-  i18n.on('languageChanged', (lng) => setLocale(i18n.language));
+    useEffect(() => {
+        handleAuthorizeUser();
+    }, []);
 
-  return (
-    <>
-      <LocaleContext.Provider value={{ locale, setLocale }}>
-        <Navigation currentUser={currentUser} isAuthorized={isAuthorized} logOut={handleLogOutUser} />
-        <Routes>
-          <Route exact path='/' element={<Travels />} />
-          <Route path='/reviews' element={<Reviews />} />
-        </Routes>
-      </LocaleContext.Provider>
-    </>
-  );
+    i18n.on('languageChanged', (lng) => setLocale(i18n.language));
+
+    return (
+        <>
+            <LocaleContext.Provider value={{locale, setLocale}}>
+                <Navigation
+                    currentUser={currentUser}
+                    isAuthorized={isAuthorized}
+                    logOut={handleLogOutUser}
+                    showLogIn={showLogIn}
+                    setShowLogIn={setShowLogIn}
+                />
+                <Routes>
+                    <Route exact path='/' element={<Travels currentUser={currentUser} isAuthorized={isAuthorized}
+                                                            setShowLogIn={setShowLogIn}/>}/>
+                    <Route path='/reviews' element={<Reviews/>}/>
+                </Routes>
+            </LocaleContext.Provider>
+        </>
+    );
 }
 
 export default App;

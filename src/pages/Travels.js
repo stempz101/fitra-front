@@ -13,7 +13,7 @@ import {debounce} from "lodash";
 import moment from "moment";
 import PaginationButtons from "../components/pagination/PaginationButtons";
 
-export default function Travels() {
+export default function Travels(props) {
     const [travels, setTravels] = useState([]);
 
     const [name, setName] = useState('');
@@ -99,7 +99,7 @@ export default function Travels() {
                     countryId: response.data.countryId
                 });
             })
-            .error(error => console.error(error));
+            .catch(error => console.error(error));
     };
     const fetchTypes = async () => {
         await axios.get(`${DOMAIN_API_URL}/types`)
@@ -347,9 +347,15 @@ export default function Travels() {
                             <h1>Organize travels</h1>
                             <h1>and find buddies to the travel</h1>
                             <div className="d-flex justify-content-center mt-4">
-                                <Link to="#" className="btn btn-hero btn-hero-create mx-3">Create Travel</Link>
-                                <Link to="#" onClick={handleBrowseClick}
-                                      className="btn btn-hero btn-hero-browse text-white mx-3">Browse Travels</Link>
+                                {props.isAuthorized ? (
+                                    <Button className="btn btn-hero btn-hero-create mx-3">Create Travel</Button>
+                                ) : (
+                                    <Button onClick={() => props.setShowLogIn(true)}
+                                            className="btn btn-hero btn-hero-create text-black mx-3">Create
+                                        Travel</Button>
+                                )}
+                                <Button onClick={handleBrowseClick}
+                                        className="btn btn-hero btn-hero-browse mx-3">Browse Travels</Button>
                             </div>
                         </div>
                         <div/>
@@ -462,7 +468,12 @@ export default function Travels() {
                     </Row>
                     <div className="travels">
                         <Row>
-                            {travels
+                            {travels.length === 0 ? (
+                                <Col className="my-5" sm={12}>
+                                    <h4 className="text-muted text-center">It looks like there are no travels available
+                                        at the moment.<br/>Please check back later or create a new travel.</h4>
+                                </Col>
+                            ) : travels
                                 .map(travel => (
                                     <Col className="mt-3" sm={12} md={6} lg={4}>
                                         <Card className="shadow-sm">
