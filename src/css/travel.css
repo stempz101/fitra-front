@@ -1,0 +1,119 @@
+.travel-main a {
+    text-decoration: none;
+}
+
+.travel-created-by .travel-creator {
+    color: #000;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.btn-ask {
+    color: #448EF6;
+    font-weight: 600;
+    border-color: #afafaf;
+    background-color: #fff;
+}
+
+.btn-ask:hover {
+    color: #fff;
+    background-color: #448EF6;
+    border-color: #448EF6;
+}
+
+.travel-route a, .travel-type a {
+    color: #448EF6;
+}
+
+.travel-route a:hover, .travel-type a:hover {
+    color: #3478D8;
+}
+
+.travel-short-info {
+    font-weight: 600;
+}
+
+.travel-btn-read {
+    color: #448EF6;
+    background-color: transparent;
+    border-color: #afafaf;
+    font-weight: 700;
+}
+
+.travel-btn-read:hover {
+    color: #fff;
+    background-color: #3478D8;
+    border-color: #3478D8;
+}
+
+.travel-user-star {
+    color: #fff;
+    background-color: #FFA800;
+}
+
+.travel-creator-about .travel-creator a {
+    color: #000;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.travel-creator-about .travel-creator a:hover {
+    color: #448EF6;
+}
+
+.travel-creator-about .about a {
+    color: #448EF6;
+    font-weight: 600;
+}
+
+.travel-creator-about .about a:hover {
+    color: #3478D8;
+}
+
+.travel-mates .scrollable-x {
+    overflow-x: auto;
+}
+
+.travel-mates .scrollable-x::-webkit-scrollbar {
+    margin-top: 10px;
+    width: 12px;
+}
+
+.travel-mates .scrollable-x::-webkit-scrollbar-track {
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.travel-mates .scrollable-x::-webkit-scrollbar-thumb {
+    background-color: #c4c4c4;
+    border: .25em solid hsl(0, 0%, 100%);
+    border-radius: 10px;
+}
+
+.travel-mates .scrollable-x::-webkit-scrollbar-thumb:hover {
+    background-color: #999999;
+}
+
+.travel-dates {
+    color: #707070;
+    font-weight: 600;
+}
+
+.btn-join-request {
+    color: #fff;
+    background-color: #50a845;
+    border-color: #50a845;
+    font-weight: 600;
+}
+
+.btn-join-request:hover {
+    background-color: #418a39;
+    border-color: #418a39;
+}
+
+.btn-join-request.disabled {
+    color: #fff;
+    background-color: #999999;
+    border-color: #999999;
+    font-weight: 600;
+}

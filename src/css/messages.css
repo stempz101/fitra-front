@@ -1,0 +1,28 @@
+.messages {
+    height: 530px;
+    box-shadow: 0 0 5px #c9c9c9;
+    overflow: hidden;
+}
+
+.chat-rooms {
+    background-color: #fafafa;
+    overflow-y: auto;
+}
+
+.chat-item-active .rce-citem {
+    background-color: #448EF6;
+    color: #fff;
+    font-weight: 500;
+}
+
+.chat-item-active .rce-citem .rce-citem-body--bottom-title {
+    color: #f8f8f8;
+}
+
+.chat-item-active .rce-citem .rce-citem-body--top-time {
+    color: #f8f8f8;
+}
+
+.chat-item .rce-avatar {
+    object-fit: cover;
+}

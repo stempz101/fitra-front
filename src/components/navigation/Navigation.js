@@ -19,6 +19,10 @@ import ResetModal from "../modals/ResetModal";
 import axios from "axios";
 import {DOMAIN_API_URL} from "../../api";
 import EmailAlertModal from "../modals/EmailAlertModal";
+import {Stomp} from '@stomp/stompjs';
+import Cookies from "js-cookie";
+import SockJS from 'sockjs-client';
+import TypeModal from "../modals/type/TypeModal";
 
 export default function Navigation(props) {
     const {locale} = useContext(LocaleContext);
@@ -26,6 +30,7 @@ export default function Navigation(props) {
     const [showSignUp, setShowSignUp] = useState(false);
     const [showReset, setReset] = useState(false);
     const [showEmailConfirmationAlert, setShowEmailConfirmationAlert] = useState(false);
+    const [showTypes, setShowTypes] = useState(false);
 
     const [avatarUrl, setAvatarUrl] = useState("/img/default-user.png");
 
@@ -34,9 +39,9 @@ export default function Navigation(props) {
     const handleResetClose = () => setReset(false);
 
     useEffect(() => {
-        if (props.currentUser && props.currentUser.avatar) {
+        if (props.currentUser) {
             const fetchAvatar = async () => {
-                await axios.get(`${DOMAIN_API_URL}/images/${props.currentUser.avatar}/avatar`, {responseType: 'arraybuffer'})
+                await axios.get(`${DOMAIN_API_URL}/images/user/${props.currentUser.id}/avatar`, {responseType: 'arraybuffer'})
                     .then((response) => {
                         const blob = new Blob([response.data], {type: 'image/jpeg'});
                         const url = URL.createObjectURL(blob);
@@ -45,8 +50,9 @@ export default function Navigation(props) {
                     .catch((error) => console.error(error));
             };
             fetchAvatar();
+            // fetchInvitationsCount();
         }
-    }, [props.currentUser?.avatar])
+    }, [props.currentUser])
 
     useEffect(() => {
         if (props.currentUser && !props.currentUser.isEnabled) {
@@ -83,30 +89,27 @@ export default function Navigation(props) {
                                 </Link>
                             </Nav.Link>
                             <Nav.Link>
-                                <Link className="navi-item" to="/reviews">
-                                    {t("reviews")}
+                                <Link className="navi-item" to="/mates">
+                                    Mates
                                 </Link>
                             </Nav.Link>
                             {props.currentUser && (
                                 <Nav.Link>
-                                    <Link className="navi-item" to="/reviews">
-                                        Messages{' '}
-                                        <Badge bg="danger" pill>1</Badge>
+                                    <Link className="navi-item" to="/messages">
+                                        Messages
+                                        {props.unreadMessagesCount > 0 &&
+                                            <>
+                                                {' '}<Badge bg="danger" pill>{props.unreadMessagesCount}</Badge>
+                                            </>
+                                        }
                                     </Link>
                                 </Nav.Link>
                             )}
-                            <NavDropdown
-                                className="navi-item"
-                                title={t("language")}
-                                id="collasible-nav-dropdown"
-                            >
-                                <NavDropdown.Item href="#" onClick={() => changeLocale("en")}>
-                                    EN
-                                </NavDropdown.Item>
-                                <NavDropdown.Item href="#" onClick={() => changeLocale("uk")}>
-                                    UA
-                                </NavDropdown.Item>
-                            </NavDropdown>
+                            <Nav.Link>
+                                <Link className="navi-item" to="/about">
+                                    About Us
+                                </Link>
+                            </Nav.Link>
                             {props.isAuthorized ? (
                                 <NavDropdown
                                     title={
@@ -123,11 +126,13 @@ export default function Navigation(props) {
                                                 }}
                                             />
                                             {props.currentUser.name}{''}
-                                            <Badge bg="danger" style={{
-                                                fontSize: "5px", position: 'relative',
-                                                top: '-5px',
-                                                left: '1px',
-                                            }} pill>&nbsp;</Badge>
+                                            {props.notificationsSum > 0 &&
+                                                <Badge bg="danger" style={{
+                                                    fontSize: "5px", position: 'relative',
+                                                    top: '-5px',
+                                                    left: '1px',
+                                                }} pill>&nbsp;</Badge>
+                                            }
                                         </div>
                                     }
                                     id="basic-nav-dropdown"
@@ -135,25 +140,19 @@ export default function Navigation(props) {
                                     <NavDropdown.Item href="#action/3.1">
                                         Profile
                                     </NavDropdown.Item>
-                                    <NavDropdown.Item href="#action/3.2">
-                                        Personal Information
-                                    </NavDropdown.Item>
-                                    <NavDropdown.Item href="#action/3.3">
-                                        Gallery
-                                    </NavDropdown.Item>
-                                    <NavDropdown.Divider/>
-                                    <NavDropdown.Item href="#action/3.4">
+                                    <NavDropdown.Item as={Link} to="/my-travels">
                                         My Travels
+                                        {props.notificationsSum > 0 &&
+                                            <Badge className="ms-1" bg="danger" pill>
+                                                {props.notificationsSum}
+                                            </Badge>
+                                        }
                                     </NavDropdown.Item>
-                                    <NavDropdown.Item href="#action/3.5">
-                                        My Reviews
-                                    </NavDropdown.Item>
-                                    <NavDropdown.Item href="#action/3.6">
-                                        Messages <Badge bg="danger" pill>1</Badge>
-                                    </NavDropdown.Item>
-                                    <NavDropdown.Item href="#action/3.7">
-                                        Requests
-                                    </NavDropdown.Item>
+                                    {props.currentUser?.isAdmin &&
+                                        <NavDropdown.Item onClick={() => setShowTypes(true)}>
+                                            Types
+                                        </NavDropdown.Item>
+                                    }
                                     <NavDropdown.Item onClick={props.logOut}>Log out</NavDropdown.Item>
                                 </NavDropdown>
                             ) : (
@@ -166,7 +165,7 @@ export default function Navigation(props) {
                                     </Button>
                                     <Button
                                         className="btn-sign-up"
-                                        onClick={() => props.setShowSignUp(true)}
+                                        onClick={() => setShowSignUp(true)}
                                     >
                                         Sign up
                                     </Button>
@@ -197,6 +196,7 @@ export default function Navigation(props) {
                 show={showEmailConfirmationAlert}
                 isEnabled={props.currentUser ? props.currentUser.isEnabled : true}
             />
+            <TypeModal show={showTypes} onHide={() => setShowTypes(false)} />
         </>
     );
 }

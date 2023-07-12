@@ -1,0 +1,17 @@
+.invite-item {
+    box-shadow: 0 0 5px #c9c9c9;
+}
+
+.invite-item:hover {
+    cursor: pointer;
+    box-shadow: 0 0 5px #888;
+}
+
+.invite-item-new {
+    box-shadow: 0 0 5px #253cff;
+}
+
+.invite-item-new:hover {
+    cursor: pointer;
+    box-shadow: 0 0 10px #001bff;
+}

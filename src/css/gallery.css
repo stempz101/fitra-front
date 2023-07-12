@@ -1,0 +1,22 @@
+/*.image-container {*/
+/*    position: relative;*/
+/*}*/
+
+/*.image-container::before {*/
+/*    content: "";*/
+/*    background-color: #000;*/
+/*    !*position: relative;*!*/
+/*    !*top: 0;*!*/
+/*    !*left: 0;*!*/
+/*    !*width: 5px;*!*/
+/*    !*height: 5px;*!*/
+/*    !*background-image: inherit;*!*/
+/*    !*background-size: cover;*!*/
+/*    !*filter: blur(5px);*!*/
+/*    z-index: -1;*/
+/*}*/
+
+.image-container img {
+    object-fit: contain;
+    height: 100%;
+}

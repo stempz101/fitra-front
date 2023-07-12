@@ -12,8 +12,11 @@ import {enUS as en, uk} from "date-fns/locale";
 import {debounce} from "lodash";
 import moment from "moment";
 import PaginationButtons from "../components/pagination/PaginationButtons";
+import CreateTravelModal from "../components/modals/travel/CreateTravelModal";
 
-export default function Travels(props) {
+export default function Travels({isAuthorized, setShowLogIn}) {
+    const [showCreateTravel, setShowCreateTravel] = useState(false);
+
     const [travels, setTravels] = useState([]);
 
     const [name, setName] = useState('');
@@ -49,15 +52,29 @@ export default function Travels(props) {
             }
 
             const updatedTravels = await Promise.all(response.data.items.map(async (travel) => {
-                if (travel.creator.avatar) {
-                    const blobResponse = await axios.get(`${DOMAIN_API_URL}/images/${travel.creator.avatar}/avatar`, {responseType: 'arraybuffer'});
+                let updatedTravel = travel;
+
+                try {
+                    const blobResponse = await axios.get(`${DOMAIN_API_URL}/images/travel/${travel.id}/main`, {responseType: 'arraybuffer'});
                     const blob = new Blob([blobResponse.data], {type: 'image/jpeg'});
-                    travel.creator.avatar = URL.createObjectURL(blob);
-                } else {
-                    travel.creator.avatar = "/img/default-user.png";
+                    updatedTravel = {...updatedTravel, photo: URL.createObjectURL(blob)};
+                } catch (error) {
+                    if (error && error.response.status === 404) {
+                        updatedTravel = {...updatedTravel, photo: "/img/default-travel.jpg"};
+                    }
                 }
 
-                return travel;
+                try {
+                    const blobResponse = await axios.get(`${DOMAIN_API_URL}/images/user/${updatedTravel.creator.id}/avatar`, {responseType: 'arraybuffer'});
+                    const blob = new Blob([blobResponse.data], {type: 'image/jpeg'});
+                    updatedTravel = {...updatedTravel, creator: {...updatedTravel.creator, avatar: URL.createObjectURL(blob)}};
+                } catch (error) {
+                    if (error && error.response.status === 404) {
+                        updatedTravel = {...updatedTravel, creator: {...updatedTravel.creator, avatar: "/img/default-user.png"}};
+                    }
+                }
+
+                return updatedTravel;
             }));
 
             setTotalItems(response.data.totalItems);
@@ -66,11 +83,13 @@ export default function Travels(props) {
             console.error(error);
         }
     };
+
     const fetchCountries = async () => {
         await axios.get(`${DOMAIN_API_URL}/countries`)
             .then(response => setCountries(response.data))
             .catch(error => console.error(error));
     };
+
     const fetchCountry = async (countryId) => {
         await axios.get(`${DOMAIN_API_URL}/countries/${countryId}`)
             .then(response => setCountry({value: response.data.id, label: response.data.title}))
@@ -85,11 +104,13 @@ export default function Travels(props) {
                 setIsLoading(false);
             });
     };
+
     const fetchCities = async () => {
         await axios.get(`${DOMAIN_API_URL}/countries/cities`)
             .then(response => setCities(response.data))
             .catch(error => console.error(error));
     };
+
     const fetchCity = async (cityId) => {
         await axios.get(`${DOMAIN_API_URL}/countries/cities/${cityId}`)
             .then(response => {
@@ -101,16 +122,19 @@ export default function Travels(props) {
             })
             .catch(error => console.error(error));
     };
+
     const fetchTypes = async () => {
         await axios.get(`${DOMAIN_API_URL}/types`)
             .then(response => setTypes(response.data))
             .catch(error => console.error(error));
     };
+
     const fetchType = async (typeId) => {
         await axios.get(`${DOMAIN_API_URL}/types/${typeId}`)
             .then(response => setType({value: response.data.id, label: response.data.name}))
             .catch(error => console.error(error));
     };
+
     const handleQueryParams = (params) => {
         if (params.toString().length !== 0) {
             const paramName = params.get('name');
@@ -247,8 +271,9 @@ export default function Travels(props) {
             queryParams.set('name', name);
         if (country)
             queryParams.set('countryId', country.value);
-        if (city)
+        if (city) {
             queryParams.set('cityId', city.value);
+        }
         if (type)
             queryParams.set('typeId', type.value);
         if (startDate)
@@ -347,10 +372,12 @@ export default function Travels(props) {
                             <h1>Organize travels</h1>
                             <h1>and find buddies to the travel</h1>
                             <div className="d-flex justify-content-center mt-4">
-                                {props.isAuthorized ? (
-                                    <Button className="btn btn-hero btn-hero-create mx-3">Create Travel</Button>
+                                {isAuthorized ? (
+                                    <Button onClick={() => setShowCreateTravel(true)}
+                                            className="btn btn-hero btn-hero-create text-black mx-3">Create
+                                        Travel</Button>
                                 ) : (
-                                    <Button onClick={() => props.setShowLogIn(true)}
+                                    <Button onClick={() => setShowLogIn(true)}
                                             className="btn btn-hero btn-hero-create text-black mx-3">Create
                                         Travel</Button>
                                 )}
@@ -480,16 +507,17 @@ export default function Travels(props) {
                                             <Card.Header>
                                                 {showRoute(travel)}
                                             </Card.Header>
-                                            <Link to="#asd">
-                                                <div className="bd-placeholder-img card-img-top travel-img"
-                                                     style={{backgroundImage: `url("/img/travel.jpg")`}}>
-                                                    <Link to={`#${travel.creator.id}`}>
-                                                        <div className="travel-creator">
+                                            <Link to={`/${travel.id}`}>
+                                                <div className="travel-img-parent card border-0" style={{height: "225px"}}>
+                                                    {/*<img src={travel.photo} alt="travel" className="card-img-top travel-img"/>*/}
+                                                    <div className="travel-div-img" style={{backgroundImage: `url(${travel.photo})`}}></div>
+                                                    <Link to={`#${travel.creator.id}`}> {/* TODO: to='/user/id123122' */}
+                                                        <div className="travel-item-creator">
                                                             <div
                                                                 className="rounded-circle me-2 user-avatar"
                                                                 style={{backgroundImage: `url(${travel.creator.avatar})`}}
                                                             />
-                                                            {travel.creator.name}
+                                                            {travel.creator.firstName}
                                                         </div>
                                                     </Link>
                                                 </div>
@@ -521,10 +549,10 @@ export default function Travels(props) {
                                                 </Card.Text>
                                                 <Card.Text>
                                                     {travel.description.slice(0, 160) + '... '}
-                                                    <Link className="travel-link" to="#">More</Link>
+                                                    <Link className="travel-link" to={`/${travel.id}`}>More</Link>
                                                 </Card.Text>
                                                 <div className="d-flex justify-content-between align-items-center">
-                                                    <Link to="#" className="btn btn-view">View</Link>
+                                                    <Link to={`/${travel.id}`} className="btn btn-view">View</Link>
                                                     <small
                                                         className="text-muted">{getElapsedTime(travel.createdTime)}</small>
                                                 </div>
@@ -543,6 +571,8 @@ export default function Travels(props) {
                     </div>
                 </Container>
             </section>
+            <CreateTravelModal show={showCreateTravel} onHide={() => setShowCreateTravel(false)}
+                               isAuthorized={isAuthorized}/>
         </>
     );
 }

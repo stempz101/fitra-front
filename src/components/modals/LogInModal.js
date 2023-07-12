@@ -94,16 +94,12 @@ export default function LogInModal(props) {
                   type={"checkbox"}
                   label={"Remember me"}
                   onChange={(e) => setRememberMe(e.target.checked)}
+                  style={{fontWeight: "600"}}
                 />
               </Form.Group>
               <Button className="w-100 mb-2" variant="primary" type="submit">
                 Login
               </Button>
-              <Form.Label>
-                Forgot your password?{' '}
-                <Link to="#" onClick={handleShowResetModal}>Reset</Link>
-              </Form.Label>
-              <br/>
               <Form.Label>
                 Not registered yet?{' '}
                 <Link to="#" onClick={handleShowSignUpModal}>Sign up</Link>

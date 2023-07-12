@@ -22,8 +22,7 @@ export default function useUserAuthorization() {
                 });
                 setCurrentUser({
                     id: res.data.id,
-                    name: res.data.name,
-                    avatar: res.data.avatar,
+                    name: res.data.firstName,
                     isEnabled: res.data.isEnabled,
                     isAdmin: res.data.isAdmin
                 });

@@ -1,0 +1,113 @@
+.route-item {
+    color: #448EF6;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.route-item:hover {
+    color: #3478D8;
+}
+
+.travel-name-link {
+    color: #000;
+    font-size: 20px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.btn-link-action {
+    color: #737373;
+    font-size: 15px;
+    font-weight: 700;
+    padding-left: 7.5px;
+    padding-right: 7.5px;
+}
+
+.div-success {
+    background-color: #50a845;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 0.25rem 1rem;
+    border-radius: 5px;
+}
+
+.div-primary {
+    background-color: #3478D8;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 0.25rem 1rem;
+    border-radius: 5px;
+}
+
+.div-danger{
+    background-color: #ec2f2f;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 0.25rem 1rem;
+    border-radius: 5px;
+}
+
+.div-muted {
+    background-color: #999;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 0.25rem 1rem;
+    border-radius: 5px;
+}
+
+.div-new {
+    background-color: #FFE981;
+    color: #000;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 0.25rem 0.75rem;
+    border-radius: 5px;
+}
+
+.travel-btn-danger {
+    background-color: #ec2f2f;
+    border-color: transparent;
+    font-weight: 600;
+}
+
+.travel-btn-danger:hover {
+    background-color: #c72727;
+    border-color: transparent;
+}
+
+.travel-btn-cancel {
+    background-color: #3e3e3e;
+    border-color: transparent;
+    font-weight: 600;
+}
+
+.travel-btn-cancel:hover {
+    background-color: #252525;
+    border-color: transparent;
+}
+
+.travel-btn-primary {
+    background-color: #448EF6;
+    border-color: transparent;
+    font-weight: 600;
+}
+
+.travel-btn-primary:hover {
+    background-color: #3478D8;
+    border-color: transparent;
+}
+
+.travel-btn-success {
+    background-color: #50a845;
+    border-color: transparent;
+    font-weight: 600;
+}
+
+.travel-btn-success:hover {
+    background-color: #418838;
+    border-color: transparent;
+}
